@@ -1,9 +1,18 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-const Header = ({course}) => {
+const Course = ({course}) => {
   return(
-      <h1>{course}</h1>
+    <React.Fragment>
+      <Header name={course.name} />
+      <Content parts={course.parts} />
+    </React.Fragment>
+  )
+}
+
+const Header = ({name}) => {
+  return(
+      <h1>{name}</h1>
   )
 }
 
@@ -36,28 +45,31 @@ const Total = ({parts}) => {
 }
 
 const App = () => {
-  const course = 'Half Stack application development'
-  const parts = [
-    {
-      name: 'Fundamentals of React',
-      exercises: 10
-    },
-    {
-      name: 'Using props to pass data',
-      exercises: 7
-    },
-    {
-      name: 'State of a component',
-      exercises: 14
-    }
-  ]
+  const course = {
+    name: 'Half Stack application development',
+    parts: [
+      {
+        name: 'Fundamentals of React',
+        exercises: 10,
+        id: 1
+      },
+      {
+        name: 'Using props to pass data',
+        exercises: 7,
+        id: 2
+      },
+      {
+        name: 'State of a component',
+        exercises: 14,
+        id: 3
+      }
+    ]
+  }
 
   return (
-    <React.Fragment>
-      <Header course={course} />
-      <Content parts={parts} />
-      <Total parts={parts} />
-    </React.Fragment>
+    <div>
+      <Course course={course} />
+    </div>
   )
 }
 

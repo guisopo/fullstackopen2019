@@ -1,25 +1,19 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-const Header = ({course}) => {
-  return(
-      <h1>{course}</h1>
-  )
-}
+const Header = ({course}) => (
+  <h1>{course}</h1>
+)
 
-const Content = ({parts}) => {
-  return (
-    <div>
-      { parts.map( p => <Part name={p.name} exercises={p.exercises} /> )}
-    </div>
-  )
-}
+const Content = ({parts}) => (
+  <div>
+    { parts.map( p => <Part name={p.name} exercises={p.exercises} /> )}
+  </div>
+)
 
-const Part = ({name, exercises}) => {
-  return (
-    <p>{name} {exercises}</p>
-  )
-}
+const Part = ({name, exercises}) => (
+  <p>{name} {exercises}</p>
+)
 
 const Total = ({parts}) => {
   const totalExcercises = () => {

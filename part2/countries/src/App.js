@@ -8,7 +8,7 @@ function App() {
   const [newQuery, setNewQuery] = useState('')
   const [filteredList, setFilteredList] = useState(countriesList)
 
-  const hook = () => { 
+  const countryHook = () => { 
     axios
       .get('https://restcountries.eu/rest/v2/all')
       .then(response => {
@@ -16,7 +16,7 @@ function App() {
       })
   }
 
-  useEffect(hook, [])
+  useEffect(countryHook, [])
 
   const handleQueryChange= (event) => {
     setNewQuery(event.target.value)
@@ -30,13 +30,19 @@ function App() {
     setFilteredList(filteredList)
   }
 
+  const showCountryInfo = (name) => {
+    const countryToShow = filteredList.filter( country => country.name === name)
+    setFilteredList(countryToShow)
+  }
+
   return (
     <React.Fragment>
       <Filter 
         newQuery={newQuery} 
         handleQueryChange={handleQueryChange}/>
-      <Response 
+      <Response
         filteredList={filteredList} 
+        showCountryInfo={showCountryInfo}
       />
     </React.Fragment>
   )

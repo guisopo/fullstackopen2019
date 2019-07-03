@@ -1,11 +1,12 @@
 import React from 'react'
+import ListItem from './ListItem';
 
-const List = ({filteredList}) => (
+const List = ({filteredList, showCountryInfo}) => (
   <div>
     { 
-      filteredList.length > 10 
+      filteredList.length > 15 
       ? <p>Too many matches, specify another filter</p>
-      : filteredList.map( country => <li key={country.alpha3Code}>{country.name}</li>)
+      : filteredList.map( country => <ListItem key={country.numericCode} name={country.name} showCountryInfo={showCountryInfo} />)
     }
   </div>
 )

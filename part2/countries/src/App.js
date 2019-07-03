@@ -5,6 +5,8 @@ import Response from './components/Response';
 
 function App() {
   const [countriesList, setCountriesList] = useState([])
+  const [singleCountry, setSingleCountry] = useState('Spain')
+  const [weatherData, setWeatherData] = useState()
   const [newQuery, setNewQuery] = useState('')
   const [filteredList, setFilteredList] = useState(countriesList)
 
@@ -18,7 +20,17 @@ function App() {
 
   useEffect(countryHook, [])
 
-  const handleQueryChange= (event) => {
+  const weatherHook = () => {
+    axios
+      .get(`http://api.apixu.com/v1/current.json?key=042abea1ba1d4d0a98f162505190307&q=${singleCountry}`)
+      .then(response => {
+        setWeatherData(response.data)
+      })
+  }
+
+  useEffect(weatherHook, [singleCountry])
+
+  const handleQueryChange = (event) => {
     setNewQuery(event.target.value)
     filterData(event.target.value)
   }
@@ -38,11 +50,13 @@ function App() {
   return (
     <React.Fragment>
       <Filter 
-        newQuery={newQuery} 
-        handleQueryChange={handleQueryChange}/>
+        newQuery = {newQuery} 
+        handleQueryChange = {handleQueryChange}/>
       <Response
-        filteredList={filteredList} 
-        showCountryInfo={showCountryInfo}
+        setSingleCountry = {setSingleCountry}
+        filteredList = {filteredList} 
+        weatherData = {weatherData}
+        showCountryInfo = {showCountryInfo}
       />
     </React.Fragment>
   )

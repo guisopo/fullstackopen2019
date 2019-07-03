@@ -1,20 +1,8 @@
-import React, {useState, useEffect} from 'react'
-import axios from 'axios'
-import Weather from './Weather';
+import React from 'react'
+import Weather from './Weather'
 
-const CountryProfile = ({countryData}) => {
-  const [weatherData, setWeatherData] = useState()
-
-  const weatherHook = () => {
-    axios
-      .get(`http://api.apixu.com/v1/current.json?key=042abea1ba1d4d0a98f162505190307&q=${countryData.name}`)
-      .then(response => {
-        setWeatherData(response.data)
-      })
-  }
-
-  useEffect(weatherHook, [countryData])
-
+const CountryProfile = ({countryData, weatherData, setSingleCountry}) => {
+  setSingleCountry(countryData.name)
   return(
     <div>
     <h2>{countryData.name}</h2>

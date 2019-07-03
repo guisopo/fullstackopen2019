@@ -1,6 +1,6 @@
 import React from 'react'
 
-const PersonList = ({ isFiltering, filteredList, persons }) => (
+const PersonList = ({isFiltering, filteredList, persons}) => (
   <div>
     <div>
       { 

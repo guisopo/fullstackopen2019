@@ -64,11 +64,11 @@ const App = () => {
       />
       <h2>Add a new Contact</h2>
       <PersonForm 
-        addName={addName} 
         newName={newName}
         handleNameChange={handleNameChange}
         newNumber={newNumber}
         handleNumberChange={handleNumberChange}
+        addName={addName} 
       />
       <h2>Numbers</h2>
       <PersonList 

@@ -5,9 +5,10 @@ import Response from './components/Response';
 
 function App({apiKey}) {
   const [countriesList, setCountriesList] = useState([])
-  const [weatherData, setWeatherData] = useState()
   const [newQuery, setNewQuery] = useState('')
   const [filteredList, setFilteredList] = useState(countriesList)
+  const [singleCountry, setSingleCountry] = useState()
+  const [weatherData, setWeatherData] = useState()
 
   const countryListHook = () => { 
     axios
@@ -20,10 +21,9 @@ function App({apiKey}) {
   useEffect(countryListHook, [])
   
   const weatherHook = () => {
-    const countryCapital = filteredList.length === 1 ? filteredList[0].capital : ''
-    if (countryCapital) {
+    if (singleCountry) {
       axios
-        .get(`http://api.apixu.com/v1/current.json?key=${apiKey}&q=${countryCapital}`)
+        .get(`http://api.apixu.com/v1/current.json?key=${apiKey}&q=${singleCountry.capital}`)
         .then(response => {
           setWeatherData(response.data)
       })
@@ -31,7 +31,7 @@ function App({apiKey}) {
     return
   }
   
-  useEffect( weatherHook, [filteredList])
+  useEffect(weatherHook, [singleCountry])
 
   const handleQueryChange = (event) => {
     setNewQuery(event.target.value)
@@ -42,12 +42,16 @@ function App({apiKey}) {
     const filteredList = countriesList.filter( 
       (country) => country.name.toLowerCase().indexOf(query.toLowerCase()) !== -1 
     )
+
+    filteredList.length === 1 
+      ? setSingleCountry(filteredList[0]) 
+      : setSingleCountry('')
+
     setFilteredList(filteredList)
   }
 
-  const showCountryInfo = (name) => {
-    const countryToShow = filteredList.filter( country => country.name === name)
-    setFilteredList(countryToShow)
+  const showCountryInfo = (countryObject) => {
+    setSingleCountry(countryObject)
   }
 
   return (
@@ -57,6 +61,7 @@ function App({apiKey}) {
         handleQueryChange = {handleQueryChange}/>
       <Response
         filteredList = {filteredList} 
+        singleCountry = {singleCountry}
         showCountryInfo = {showCountryInfo}
         weatherData = {weatherData}
       />

@@ -8,7 +8,11 @@ const CountryProfile = ({countryData, weatherData}) => (
     <p>Population: {countryData.population}</p>
     <p>Languages:</p>
     <ul>
-      {countryData.languages.map(language => <li key={language.iso639_2}>{language.name}</li>)}
+      {
+        countryData.languages.map(language => 
+          <li key={language.iso639_2}>{language.name}</li>
+        )
+      }
     </ul>
     <img src={countryData.flag} alt="flag"/>
     {

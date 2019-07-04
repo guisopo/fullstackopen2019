@@ -6,8 +6,14 @@ const Response = ({filteredList, showCountryInfo, weatherData}) => (
   <div>
     { 
       filteredList.length !== 1
-      ? <List filteredList={filteredList} showCountryInfo={showCountryInfo}/>
-      : <CountryProfile countryData={filteredList[0]} weatherData={weatherData}/>
+      ? <List 
+          filteredList={filteredList} 
+          showCountryInfo={showCountryInfo}
+        />
+      : <CountryProfile 
+          countryData={filteredList[0]} 
+          weatherData={weatherData}
+        />
     }
   </div>
 )

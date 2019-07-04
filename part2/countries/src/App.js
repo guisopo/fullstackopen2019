@@ -20,10 +20,10 @@ function App({apiKey}) {
   useEffect(countryListHook, [])
   
   const weatherHook = () => {
-    const country = filteredList.length === 1 ? filteredList[0].name : ''
-    if (country) {
+    const countryCapital = filteredList.length === 1 ? filteredList[0].capital : ''
+    if (countryCapital) {
       axios
-        .get(`http://api.apixu.com/v1/current.json?key=${apiKey}&q=${country}`)
+        .get(`http://api.apixu.com/v1/current.json?key=${apiKey}&q=${countryCapital}`)
         .then(response => {
           setWeatherData(response.data)
       })

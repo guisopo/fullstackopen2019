@@ -1,7 +1,6 @@
 import React from 'react'
 
 const ListItem = ({name, showCountryInfo}) => {
-
   return(
     <li>
       {name}

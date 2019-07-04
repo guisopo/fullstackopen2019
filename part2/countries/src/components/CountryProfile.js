@@ -1,10 +1,8 @@
 import React from 'react'
 import Weather from './Weather'
 
-const CountryProfile = ({countryData, weatherData, setSingleCountry}) => {
-  setSingleCountry(countryData.name)
-  return(
-    <div>
+const CountryProfile = ({countryData, weatherData}) => (
+  <div>
     <h2>{countryData.name}</h2>
     <p>Capital: {countryData.capital}</p>
     <p>Population: {countryData.population}</p>
@@ -17,7 +15,6 @@ const CountryProfile = ({countryData, weatherData, setSingleCountry}) => {
       weatherData ? <Weather weatherData={weatherData}/> : ''
     }
   </div>
-  )
-}
+)
 
 export default CountryProfile

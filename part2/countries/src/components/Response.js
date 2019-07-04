@@ -2,12 +2,12 @@ import React from 'react'
 import List from './List'
 import CountryProfile from './CountryProfile'
 
-const Response = ({filteredList, showCountryInfo, weatherData, setSingleCountry}) => (
+const Response = ({filteredList, showCountryInfo, weatherData}) => (
   <div>
     { 
       filteredList.length !== 1
       ? <List filteredList={filteredList} showCountryInfo={showCountryInfo}/>
-      : <CountryProfile setSingleCountry={setSingleCountry} countryData={filteredList[0]} weatherData={weatherData}/>
+      : <CountryProfile countryData={filteredList[0]} weatherData={weatherData}/>
     }
   </div>
 )

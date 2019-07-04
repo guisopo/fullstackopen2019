@@ -85,6 +85,7 @@ const App = () => {
       <PersonList 
         isFiltering={isFiltering}
         persons={persons}
+        setPersons={setPersons}
         filteredList={filteredList}
       />
     </div>

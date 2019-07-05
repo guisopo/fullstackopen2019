@@ -1,6 +1,6 @@
 import React from 'react'
 
-const PersonList = ({isFiltering, persons, filteredList, deletePerson}) => {
+const ContactList = ({isFiltering, persons, filteredList, deletePerson}) => {
 
   const ListItem = ({name,number, deletePerson}) => (
     <li key={name}>
@@ -27,4 +27,4 @@ const PersonList = ({isFiltering, persons, filteredList, deletePerson}) => {
   )
 }
 
-export default PersonList
+export default ContactList

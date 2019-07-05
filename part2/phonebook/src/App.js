@@ -69,6 +69,7 @@ const App = () => {
           setPersons(persons.map( person =>
             person.id !== id ? person : returnedPerson
           ))
+          showNotification(`Updated ${returnedPerson.name}`, 'success')
         })
         .catch((error) => {
           console.log(error)
@@ -90,6 +91,7 @@ const App = () => {
       setNewQuery('')
       setFilteredList([])
       setFiltering(false)
+      showNotification(`Deleted ${name}`, 'success')
     }
   }
 

@@ -30,7 +30,14 @@ const App = () => {
     const nameExist = persons.find( person => person.name.toLowerCase() === newName.toLowerCase() )
     
     if(nameExist) {
-      return alert(  `${newName} is already added to phonebook`)
+      const result = window.confirm(`${newName} was already added to the phonebook. Would you like to update it's phone number?`)
+
+      if(result) {
+        updatePerson(nameExist.id, personObject)
+      }
+      setNewName('')
+      setNewNumber('')
+      return
     }
 
     personService
@@ -39,6 +46,19 @@ const App = () => {
         setPersons(persons.concat(returnedPerson))
         setNewName('')
         setNewNumber('')
+      })
+  }
+
+  const updatePerson = (id, changedPerson) => {
+    personService
+      .updatePerson(id, changedPerson)
+      .then( returnedPerson => {
+        setPersons(persons.map( person =>
+          person.id !== id ? person : returnedPerson
+        ))
+      })
+      .catch((error) => {
+        console.log(error)
       })
   }
 
@@ -51,6 +71,7 @@ const App = () => {
         .then(setPersons(persons.filter(n => n.id !== id)))
         setNewQuery('')
         setFilteredList([])
+        setFiltering(false)
     }
   }
 

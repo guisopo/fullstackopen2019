@@ -1,42 +1,28 @@
 import React from 'react'
-import servicePerson from '../services/persons'
 
-const PersonList = ({isFiltering, filteredList, persons, setPersons}) => {
-  const deletePerson = (id) => {
-    servicePerson
-      .deletePerson(id)
-      .then(setPersons(persons.filter(n => n.id !== id)))
-  }
+const PersonList = ({isFiltering, persons, filteredList, deletePerson}) => {
 
-  const ListItem = ({name,number, id}) => (
+  const ListItem = ({name,number, deletePerson}) => (
     <li key={name}>
-      {name} {number} <button onClick={()=>deletePerson(id)}>Delete</button>
+      {name} {number} 
+      <button onClick={deletePerson}>Delete</button>
     </li>
   )
 
+  const listToMap = !isFiltering ? persons : filteredList
+
   return(
     <div>
-      <div>
-        { 
-          !isFiltering
-            ? persons.map( person => 
-                <ListItem
-                  id={person.id}
-                  key={person.name} 
-                  name={person.name}  
-                  number={person.number} 
-                />
-              )
-            : filteredList.map( person => 
-                <ListItem
-                  id={person.id}
-                  key={person.name} 
-                  name={person.name}  
-                  number={person.number} 
-                />
-              )
-        }
-      </div>
+      { 
+        listToMap.map( person => 
+          <ListItem
+            key={person.name} 
+            name={person.name}  
+            number={person.number}
+            deletePerson={()=>deletePerson(person.id, person.name)}
+          />
+        )
+      }
     </div>
   )
 }

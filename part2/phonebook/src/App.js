@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Filter from './components/Filter';
-import PersonForm from './components/PersonForm';
-import PersonList from './components/PersonList';
+import ContactForm from './components/ContactForm';
+import ContactList from './components/ContactList';
 import personService from './services/persons'
 
 const App = () => {
@@ -83,7 +83,7 @@ const App = () => {
         handleQueryChange={handleQueryChange}
       />
       <h2>Add a new Contact</h2>
-      <PersonForm 
+      <ContactForm 
         newName={newName}
         handleNameChange={handleNameChange}
         newNumber={newNumber}
@@ -91,7 +91,7 @@ const App = () => {
         addName={addName} 
       />
       <h2>Numbers</h2>
-      <PersonList 
+      <ContactList 
         isFiltering={isFiltering}
         persons={persons}
         filteredList={filteredList}

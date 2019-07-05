@@ -9,12 +9,12 @@ const PersonList = ({isFiltering, persons, filteredList, deletePerson}) => {
     </li>
   )
 
-  const listToMap = !isFiltering ? persons : filteredList
+  const contactList = !isFiltering ? persons : filteredList
 
   return(
     <div>
       { 
-        listToMap.map( person => 
+        contactList.map( person => 
           <ListItem
             key={person.name} 
             name={person.name}  

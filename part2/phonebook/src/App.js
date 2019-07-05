@@ -30,13 +30,7 @@ const App = () => {
     const nameExist = persons.find( person => person.name.toLowerCase() === newName.toLowerCase() )
     
     if(nameExist) {
-      const result = window.confirm(`${newName} was already added to the phonebook. Would you like to update it's phone number?`)
-
-      if(result) {
-        updatePerson(nameExist.id, personObject)
-      }
-      setNewName('')
-      setNewNumber('')
+      updatePerson(nameExist.id, personObject)
       return
     }
 
@@ -50,16 +44,23 @@ const App = () => {
   }
 
   const updatePerson = (id, changedPerson) => {
-    personService
-      .updatePerson(id, changedPerson)
-      .then( returnedPerson => {
-        setPersons(persons.map( person =>
-          person.id !== id ? person : returnedPerson
-        ))
-      })
-      .catch((error) => {
-        console.log(error)
-      })
+    const result = window.confirm(`${changedPerson.name} was already added to the phonebook. Would you like to update it's phone number?`)
+    
+    if(result) {
+      personService
+        .updatePerson(id, changedPerson)
+        .then( returnedPerson => {
+          setPersons(persons.map( person =>
+            person.id !== id ? person : returnedPerson
+          ))
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    }
+
+    setNewName('')
+    setNewNumber('')
   }
 
   const deletePerson = (id, name) => {
@@ -69,9 +70,10 @@ const App = () => {
       personService
         .deletePerson(id)
         .then(setPersons(persons.filter(n => n.id !== id)))
-        setNewQuery('')
-        setFilteredList([])
-        setFiltering(false)
+
+      setNewQuery('')
+      setFilteredList([])
+      setFiltering(false)
     }
   }
 

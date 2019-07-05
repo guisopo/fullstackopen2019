@@ -3,20 +3,24 @@ import Filter from './components/Filter';
 import ContactForm from './components/ContactForm';
 import ContactList from './components/ContactList';
 import personService from './services/persons'
+import Notification from './components/Notification';
 
 const App = () => {
   const [persons, setPersons] = useState([])
-  const [ newName, setNewName ] = useState('')
-  const [ newNumber, setNewNumber ] = useState('')
-  const [ newQuery, setNewQuery ] = useState('')
-  const [ filteredList, setFilteredList ] = useState(persons)
-  const [ isFiltering, setFiltering ] = useState(false)
+  const [newName, setNewName] = useState('')
+  const [newNumber, setNewNumber] = useState('')
+  const [newQuery, setNewQuery] = useState('')
+  const [filteredList, setFilteredList] = useState(persons)
+  const [isFiltering, setFiltering] = useState(false)
+  const [message, setMessage] = useState('')
   
   
   const initialHook = () => {
     personService
       .getAll()
-      .then(initialPersons => setPersons(initialPersons))
+      .then(initialPersons => 
+        setPersons(initialPersons)
+      )
   }
   
   useEffect( initialHook, [])
@@ -40,7 +44,19 @@ const App = () => {
         setPersons(persons.concat(returnedPerson))
         setNewName('')
         setNewNumber('')
+        showNotification(`Added ${returnedPerson.name}`, 'success')
       })
+  }
+
+  const showNotification = (content, status) => {
+    setMessage({
+      content: content, 
+      status: status
+    })
+    setTimeout(() => setMessage({
+      content: '', 
+      status: ''})
+    , 1500)
   }
 
   const updatePerson = (id, changedPerson) => {
@@ -101,6 +117,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={message} />
       <Filter 
         newQuery={newQuery} 
         handleQueryChange={handleQueryChange}

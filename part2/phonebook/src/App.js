@@ -59,20 +59,20 @@ const App = () => {
       })
   }
 
-  const updatePerson = (id, changedPerson) => {
-    const result = window.confirm(`${changedPerson.name} was already added to the contact list. Would you like to update it's phone number?`)
+  const updatePerson = (id, personObject) => {
+    const result = window.confirm(`${personObject.name} was already added to the contact list. Would you like to update it's phone number?`)
     
     if(result) {
       personService
-        .updatePerson(id, changedPerson)
-        .then( returnedPerson => {
+        .updatePerson(id, personObject)
+        .then(returnedPerson => {
           setPersons(persons.map( person =>
             person.id !== id ? person : returnedPerson
           ))
           showNotification(`Updated ${returnedPerson.name} phone number`, 'success')
         })
         .catch((error) => {
-          showNotification(`${changedPerson.name} was already removed from the server`, 'error')
+          showNotification(`${personObject.name} was already removed from the server`, 'error')
           setPersons(persons.filter(n => n.id !== id))
         })
     }

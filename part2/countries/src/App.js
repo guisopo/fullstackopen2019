@@ -10,6 +10,7 @@ function App({apiKey}) {
   const [singleCountry, setSingleCountry] = useState()
   const [weatherData, setWeatherData] = useState()
 
+  // Retrieve List of Countries during initialization
   const countryListHook = () => { 
     axios
       .get('https://restcountries.eu/rest/v2/all')
@@ -19,7 +20,23 @@ function App({apiKey}) {
   }
 
   useEffect(countryListHook, [])
+
+  // Filter Data when newQuery updates
+  const filterData = () => {
+    const filteredList = countriesList.filter(
+      (country) => country.name.toLowerCase().indexOf(newQuery.toLowerCase()) !== -1 
+    )
+      
+    filteredList.length === 1 
+      ? setSingleCountry(filteredList[0]) 
+      : setSingleCountry('')
+      
+      setFilteredList(filteredList)
+  }
+    
+  useEffect(filterData, [newQuery])
   
+  // Retrieve Weather Data when singleCountry updates
   const weatherHook = () => {
     if (singleCountry) {
       axios
@@ -35,21 +52,8 @@ function App({apiKey}) {
 
   const handleQueryChange = (event) => {
     setNewQuery(event.target.value)
-    filterData(event.target.value)
   }
-
-  const filterData = (query) => {
-    const filteredList = countriesList.filter( 
-      (country) => country.name.toLowerCase().indexOf(query.toLowerCase()) !== -1 
-    )
-
-    filteredList.length === 1 
-      ? setSingleCountry(filteredList[0]) 
-      : setSingleCountry('')
-
-    setFilteredList(filteredList)
-  }
-
+  
   const showCountryInfo = (countryObject) => {
     setSingleCountry(countryObject)
   }

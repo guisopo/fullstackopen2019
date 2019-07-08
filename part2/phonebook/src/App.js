@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
+import personService from './services/persons'
 import Filter from './components/Filter';
 import ContactForm from './components/ContactForm';
 import ContactList from './components/ContactList';
-import personService from './services/persons'
 import Notification from './components/Notification';
 
 const App = () => {
@@ -14,7 +14,7 @@ const App = () => {
   const [isFiltering, setFiltering] = useState(false)
   const [message, setMessage] = useState('')
   
-  
+  // Retrieve Data during Initialization
   const initialHook = () => {
     personService
       .getAll()
@@ -24,6 +24,16 @@ const App = () => {
   }
   
   useEffect( initialHook, [])
+
+  // Filter Contact List when newQuery updates
+  const filterPhoneBook = () => {
+    const filteredList = persons.filter( 
+      (person) => person.name.toLowerCase().indexOf(newQuery.toLowerCase()) !== -1 
+    )
+    setFilteredList(filteredList)
+  }
+
+  useEffect(filterPhoneBook, [newQuery])
 
   const showNotification = (content, status) => {
     setMessage({
@@ -106,16 +116,11 @@ const App = () => {
   }
 
   const handleQueryChange= (event) => {
-    event.target.value.length > 0 ? setFiltering(true) : setFiltering(false)
+    event.target.value.length > 0 
+      ? setFiltering(true) 
+      : setFiltering(false)
+      
     setNewQuery(event.target.value)
-    filterPhoneBook(event.target.value)
-  }
-
-  const filterPhoneBook = (query) => {
-    const filteredList = persons.filter( 
-      (person) => person.name.toLowerCase().indexOf(query.toLowerCase()) !== -1 
-    )
-    setFilteredList(filteredList)
   }
 
   return (

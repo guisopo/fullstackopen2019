@@ -1,8 +1,8 @@
 const express = require('express')
-const app = express()
 const bodyParser = require('body-parser')
 const morgan = require('morgan')
 
+const app = express()
 app.use(bodyParser.json())
 
 let persons = [
@@ -34,10 +34,9 @@ let persons = [
 ]
 
 const generateRandomId = () => {
-  const personsIds = persons.map( person => person.id)
-  const randomId = Math.ceil(Math.random() * 1000)
-  if (personsIds.find(id => id === randomId)) {
-    generateRandomId()
+  const randomId = Math.ceil(Math.random() * 10)
+  if (persons.find(p => p.id === randomId)) {
+    return generateRandomId()
   } else {
     return randomId
   }
@@ -47,15 +46,15 @@ app.get('/', (req, res) => {
   res.send('<h1>Contact List</h1>')
 })
 
-app.get('/api/persons', (req, res) => {
-  res.json(persons)
-})
-
 app.get('/info', (req, res) => {
   res.send(`
     <p>Phonebook has info for ${persons.length} people</p>
     <p>${new Date()}</p>
   `)
+})
+
+app.get('/api/persons', (req, res) => {
+  res.json(persons)
 })
 
 app.get('/api/persons/:id', (req, res) => {
@@ -71,23 +70,33 @@ app.get('/api/persons/:id', (req, res) => {
 app.post('/api/persons', (req, res) => {
   const body = req.body
 
-  if(!body.name || !body.phone) {
+  if(!body.name) {
+    if(!body.phone) {
+      return res.status(400).json({
+        error: 'Name and phone missing.'
+      })
+    }
     return res.status(400).json({
-      error: 'Content missing'
+      error: 'Name missing.'
+    })
+  }
+
+  if(!body.phone) {
+    return res.status(400).json({
+      error: 'Phone missing.'
     })
   }
 
   if (persons.find(p => p.name === body.name)) {
     return res.status(409).json({
-      error: 'Name already taken. Name must be unique.'
+      error: 'Name already taken. Must be unique.'
     })
   }
 
-
   const person = {
+    id : generateRandomId(),
     name: body.name,
-    phone: body.phone,
-    id : generateRandomId()
+    phone: body.phone
   }
 
   persons.concat(person)

@@ -13,8 +13,8 @@ let persons = [
   },
   {
     id: 2,
-    name: "Pedro",
-    phone: "3245532"
+    name: "Paco",
+    phone: "1234567"
   },
   {
     id: 3,
@@ -33,14 +33,48 @@ let persons = [
   }
 ]
 
+//============
+// MIDDLEWARE
+
+const loggerFormat = ':method :url :status :res[content-length] - :response-time ms :person'
+
+morgan.token('person', function getInfo(req,res) {
+  if(req.method === 'POST') {
+    return JSON.stringify(req.body)
+  }
+  return ' ';
+})
+
+app.use(morgan(loggerFormat, {
+  skip: 
+  function (req, res) {
+      return res.statusCode < 400
+  },
+  stream: process.stderr
+}));
+
+app.use(morgan(loggerFormat, {
+  skip: 
+  function (req, res) {
+      return res.statusCode >= 400
+  },
+  stream: process.stdout
+}));
+
+//=========
+// HELPERS
+
 const generateRandomId = () => {
-  const randomId = Math.ceil(Math.random() * 10)
+  const randomId = Math.ceil(Math.random() * 1000)
   if (persons.find(p => p.id === randomId)) {
     return generateRandomId()
   } else {
     return randomId
   }
 }
+
+//==========
+// REST API
 
 app.get('/', (req, res) => {
   res.send('<h1>Contact List</h1>')

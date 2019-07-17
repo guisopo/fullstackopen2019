@@ -43,7 +43,7 @@ const App = () => {
     setTimeout(() => setMessage({
       content: '', 
       status: ''})
-    , 2500)
+    , 4000)
   }
 
   const addName = (event) => {
@@ -66,6 +66,10 @@ const App = () => {
         setNewName('')
         setNewNumber('')
         showNotification(`Added ${returnedPerson.name} to the contact list.`, 'success')
+      })
+      .catch(error => {
+        console.log(error.response.data.error);
+        showNotification(error.response.data.error);
       })
   }
 

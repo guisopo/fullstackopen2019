@@ -1,0 +1,12 @@
+title SPA CREATE NEW NOTE
+User->Browser: Submit Button
+note over Browser
+Eventhandler:
+Add new note to the list of notes
+then send the new note to the server
+end note
+Browser->Server: HTTP POST https://fullstack-exampleapp.herokuapp.com/new_note_spa
+note over Server
+Handle Data
+end note
+Server-->Browser: 201 Created

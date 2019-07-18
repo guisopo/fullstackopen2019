@@ -1,0 +1,23 @@
+title CREATE NEW NOTE
+User->Browser: Submit Button
+Browser->Server: HTTP POST https://fullstack-exampleapp.herokuapp.com/new_note
+note over Server
+Handle data
+end note
+Server-->Browser: HTTP REDIRECT https://fullstack-exampleapp.herokuapp.com/notes
+Browser->Server: HTTP GET https://fullstack-exampleapp.herokuapp.com/notes
+Server-->Browser: HTML code
+Browser->Server: HTTP GET https://fullstack-exampleapp.herokuapp.com/main.css
+Server-->Browser: main.css
+Browser->Server: HTTP GET https://fullstack-exampleapp.herokuapp.com/main.js
+Server-->Browser: main.js
+note over Browser
+main.js execution which
+request data.json from server
+end note
+Browser->Server: HTTP GET https://fullstack-exampleapp.herokuapp.com/data.json
+Server-->Browser: [{content: "HTML is easy", date: "2019(   ...)]
+note over Browser
+Execution of the eventhandler
+that renders notes
+end note

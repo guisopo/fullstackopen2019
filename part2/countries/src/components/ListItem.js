@@ -7,5 +7,4 @@ const ListItem = ({name, showCountryInfo}) => (
   </li>
 )
 
-
 export default ListItem

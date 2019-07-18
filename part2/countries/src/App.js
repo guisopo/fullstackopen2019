@@ -31,7 +31,7 @@ function App({apiKey}) {
       ? setSingleCountry(filteredList[0]) 
       : setSingleCountry('')
       
-      setFilteredList(filteredList)
+    setFilteredList(filteredList)
   }
     
   useEffect(filterData, [newQuery])
@@ -61,7 +61,7 @@ function App({apiKey}) {
   return (
     <React.Fragment>
       <Filter 
-        newQuery = {newQuery} 
+        newQuery = {newQuery}
         handleQueryChange = {handleQueryChange}/>
       <Response
         filteredList = {filteredList} 

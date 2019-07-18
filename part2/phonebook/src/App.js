@@ -86,8 +86,8 @@ const App = () => {
           showNotification(`Updated ${returnedPerson.name} phone number`, 'success')
         })
         .catch((error) => {
-          showNotification(`${personObject.name} was already removed from the server`, 'error')
-          setPersons(persons.filter(n => n.id !== id))
+          console.log(error.response.data.error);
+          showNotification(error.response.data.error);
         })
     }
 

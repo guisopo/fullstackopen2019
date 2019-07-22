@@ -90,8 +90,15 @@ describe('favorite blog', () => {
     __v: 0
   }
 
-  test('when list has more than one blog equals the object with the highest value of it\'s likes property', () => {
+  test('when list has more than one blog returns the blog with the highest value of likes property', () => {
     const result = listHelper.favoriteBlog(blogs)
     expect(result).toEqual(favoriteBlog)
+  })
+})
+
+describe('most blogs', () => {
+  test('when list has more than one blog, returns the author with more entrances in the list and it\'s count', () => {
+    const result = listHelper.mostBlogs(blogs)
+    expect(result).toEqual({"author": "Robert C. Martin", "blogs": 3})
   })
 })

@@ -6,7 +6,7 @@ const totalLikes = (blogs) => {
   const reducer = (acumulator, currentValue) => acumulator + currentValue
 
   let likes = blogs.map(blog => blog.likes)
-  
+
   return likes.reduce(reducer)
 }
 
@@ -21,23 +21,40 @@ const favoriteBlog = (blogs) => {
 const mostBlogs = (blogs) => {
   const names = blogs.map(blog => blog.author)
 
-  let authorsProfile = []
+  let authorsProfiles = []
 
-  names.forEach(authorName => {
-    const author = authorsProfile.find(author => author.author === authorName)
+  names.forEach(name => {
+    const author = authorsProfiles.find(singleProfile => singleProfile.author === name)
     !author
-      ? authorsProfile.push({'author': authorName, 'blogs': 1})
+      ? authorsProfiles.push({'author': name, 'blogs': 1})
       : author.blogs += 1
   })
 
-  authorsProfile.sort((a, b) => b.blogs - a.blogs)
+  authorsProfiles.sort((a, b) => b.blogs - a.blogs)
 
-  return authorsProfile[0]
+  return authorsProfiles[0]
+}
+
+const mostLikes = (blogs) => {
+  const authors = blogs.map(blog => [blog.author, blog.likes])
+  let authorsProfiles = []
+
+  authors.forEach(author => {
+    const findAuthor = authorsProfiles.find(singleProfile => singleProfile.author === author[0])
+    !findAuthor
+      ? authorsProfiles.push({'author': author[0], 'likes': author[1]})
+      : findAuthor.likes += author[1]
+  })
+
+  authorsProfiles.sort((a, b) => b.likes - a.likes)
+
+  return authorsProfiles[0]
 }
 
 module.exports = {
   dummy,
   totalLikes,
   favoriteBlog,
-  mostBlogs
+  mostBlogs,
+  mostLikes
 }

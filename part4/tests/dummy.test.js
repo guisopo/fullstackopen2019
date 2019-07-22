@@ -90,15 +90,30 @@ describe('favorite blog', () => {
     __v: 0
   }
 
-  test('when list has more than one blog returns the blog with the highest value of likes property', () => {
+  test('returns the object of the most liked blog', () => {
     const result = listHelper.favoriteBlog(blogs)
     expect(result).toEqual(favoriteBlog)
   })
 })
 
-describe('most blogs', () => {
-  test('when list has more than one blog, returns the author with more entrances in the list and it\'s count', () => {
+describe('most prolific author', () => {
+  const mostProlificAuthor= {
+    author: "Robert C. Martin", 
+    blogs: 3
+  }
+  test('returns an object with the author with more articles and it\'s articles count', () => {
     const result = listHelper.mostBlogs(blogs)
-    expect(result).toEqual({"author": "Robert C. Martin", "blogs": 3})
+    expect(result).toEqual(mostProlificAuthor)
+  })
+})
+
+describe('most liked author', () => {
+  const mostLikedAuthor = {
+    author: 'Edsger W. Dijkstra', 
+    likes: 17
+  }
+  test('returns an object with the author with more likes in it\'s set of articles and the sum of total likes', () => {
+    const result = listHelper.mostLikes(blogs)
+    expect(result).toEqual(mostLikedAuthor)
   })
 })

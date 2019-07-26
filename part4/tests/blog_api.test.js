@@ -12,3 +12,7 @@ test('all blogs are returned', async() => {
     .expect(200)
     .expect('Content-type', /application\/json/)
 })
+
+afterAll(() => {
+  mongoose.connection.close()
+})

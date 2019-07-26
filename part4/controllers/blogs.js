@@ -9,7 +9,13 @@ blogsRouter.get('/', async (request, response) => {
 blogsRouter.post('/', async (request, response) => {
   const body = request.body
 
-  !body.likes ? body.likes = 0 : ''
+  !body.likes 
+    ? body.likes = 0 
+    : ''
+  
+  body.title && body.url 
+    ?  ''
+    : response.status(400).end()
 
   const blog = new  Blog(body)
   const result = await blog.save()

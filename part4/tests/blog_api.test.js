@@ -43,7 +43,33 @@ test('adds content of the blog post and saves it correctly to the database', asy
   expect(lastBlogAdded).toHaveProperty('title', newBlog.title)
   expect(lastBlogAdded).toHaveProperty('author', newBlog.author)
   expect(lastBlogAdded).toHaveProperty('url', newBlog.url)
+  expect(lastBlogAdded).toHaveProperty('likes', newBlog.likes)
   expect(length).toBe(helper.initialBlogs.length + 1)
+})
+
+test('set likes to 0 if it\'s missing from blog', async() => {
+  const newBlog = helper.noLikesBlog
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(201)
+    .expect('Content-Type', /application\/json/)
+
+  const blogs = await api.get('/api/blogs')
+  const length = blogs.body.length
+  const lastBlogAdded = blogs.body[length -1]
+
+  expect(lastBlogAdded.likes).toBe(0)
+})
+
+test('400 status if no url or title is in Blog', async() => {
+  const newBlog = helper.noTitleNoUrlBlog
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(400)
 })
 
 afterAll(() => {

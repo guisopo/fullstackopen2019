@@ -22,11 +22,30 @@ test('all blogs are returned', async() => {
     .expect('Content-type', /application\/json/)
 })
 
-afterAll(() => {
-  mongoose.connection.close()
-})
-
 test('unique identifier property of the blog posts is named id', async() => {
   const blogs = await api.get('/api/blogs')
   expect(blogs.body[0].id).toBeDefined()
+})
+
+test('adds content of the blog post and saves it correctly to the database', async() => {
+  const newBlog = helper.singleBlog
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(201)
+    .expect('Content-Type', /application\/json/)
+
+  const blogs = await api.get('/api/blogs')
+  const length = blogs.body.length
+  const lastBlogAdded = blogs.body[length -1]
+  
+  expect(lastBlogAdded).toHaveProperty('title', newBlog.title)
+  expect(lastBlogAdded).toHaveProperty('author', newBlog.author)
+  expect(lastBlogAdded).toHaveProperty('url', newBlog.url)
+  expect(length).toBe(helper.initialBlogs.length + 1)
+})
+
+afterAll(() => {
+  mongoose.connection.close()
 })

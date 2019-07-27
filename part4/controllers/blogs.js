@@ -8,18 +8,26 @@ blogsRouter.get('/', async (request, response) => {
 
 blogsRouter.post('/', async (request, response) => {
   const body = request.body
-
-  !body.likes 
-    ? body.likes = 0 
-    : ''
   
-  body.title && body.url 
-    ?  ''
-    : response.status(400).end()
+  if (!body.title || !body.url) {
+    response.status(404).end()
+    return
+  }
 
-  const blog = new  Blog(body)
-  const result = await blog.save()
-  response.status(201).json(result)
+  const blog = new Blog({
+    title: body.title,
+    author: body.author,
+    url: body.url,
+    likes: body.likes || 0
+  })
+
+  const savedBlog = await blog.save()
+  response.status(201).json(savedBlog)
+})
+
+blogsRouter.delete('/:id', async (request, response) => {
+  await Blog.findByIdAndRemove(request.params.id)
+  response.status(204).end()
 })
 
 module.exports = blogsRouter

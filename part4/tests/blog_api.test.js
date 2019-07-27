@@ -63,7 +63,7 @@ test('set likes to 0 if it\'s missing from blog', async() => {
   expect(lastBlogAdded.likes).toBe(0)
 })
 
-test('400 status if no url or title is in Blog', async() => {
+test('400 status if no url or title is added', async() => {
   const newBlog = helper.noTitleNoUrlBlog
 
   await api

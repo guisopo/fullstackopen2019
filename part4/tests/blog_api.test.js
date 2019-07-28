@@ -6,16 +6,15 @@ const Blog = require('../models/blog')
 
 const api = supertest(app)
 
-beforeEach(async() => {
-  await Blog.deleteMany({})
-
-  const blogObjects = helper.initialBlogs
-    .map(blog => new Blog(blog))
-  const promiseArray = blogObjects.map(blog => blog.save())
-  await Promise.all(promiseArray)
-})
-
 describe('when there is initially some blogs saved', () => {
+  beforeEach(async() => {
+    await Blog.deleteMany({})
+  
+    const blogObjects = helper.initialBlogs
+      .map(blog => new Blog(blog))
+    const promiseArray = blogObjects.map(blog => blog.save())
+    await Promise.all(promiseArray)
+  })
   
   test('blogs are returned as json', async () => {
     await api
@@ -90,23 +89,55 @@ describe('when there is initially some blogs saved', () => {
     
     expect(blogsAtEnd.length).toBe(helper.initialBlogs.length)
   })
-})
 
-describe('deletion of a note', () => {
-  test('succeeds with status code 204 if id is valid', async() => {
-    const blogAtStart = await Blog.find({})
-    const blogToDelete = blogAtStart[0]
+  describe('deletion of a note', () => {
+    test('succeeds with status code 204 if id is valid', async() => {
+      const blogAtStart = await Blog.find({})
+      const blogToDelete = blogAtStart[0]
+  
+      await api
+        .delete(`/api/blogs/${blogToDelete.id}`)
+        .expect(204)
+      
+      const blogs = await Blog.find({})
+      const blogsAtEnd = blogs.map(blog => blog.toJSON()).length
+  
+      expect(blogsAtEnd).toBe(blogAtStart.length - 1)
+    })
+  })
+  
+  describe('update of a note', () => {
+    test('succeeds with status code 200 if data is valid', async() => {
+      const blogAtStart = await Blog.find({})
+      const blogToUpdate = blogAtStart[0]
 
-    await api
-      .delete(`/api/blogs/${blogToDelete.id}`)
-      .expect(204)
-    
-    const blogs = await Blog.find({})
-    const blogsAtEnd = blogs.map(blog => blog.toJSON()).length
+      const updatedBlog = {
+        title: 'Updated Title',
+        author: 'Updated Author',
+        url: 'www.updatedurl.url',
+        likes: blogAtStart[0].likes + 1
+      }
+  
+      await api
+        .put(`/api/blogs/${blogToUpdate.id}`)
+        .send(updatedBlog)
+        .expect(200)
+      
+      const blogs = await Blog.find({})
+      
+      const titles = blogs.map(n => n.title)
+      const authors = blogs.map(n => n.author)
+      const url = blogs.map(n => n.url)
+      const likes = blogs.map(n => n.likes)
 
-    expect(blogsAtEnd).toBe(blogAtStart.length - 1)
+      expect(titles).toContain(updatedBlog.title)
+      expect(authors).toContain(updatedBlog.author)
+      expect(url).toContain(updatedBlog.url)
+      expect(likes).toContain(updatedBlog.likes)
+    })
   })
 })
+
 
 afterAll(() => {
   mongoose.connection.close()

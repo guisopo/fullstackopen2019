@@ -15,61 +15,97 @@ beforeEach(async() => {
   await Promise.all(promiseArray)
 })
 
-test('all blogs are returned', async() => {
-  await api
-    .get('/api/blogs')
-    .expect(200)
-    .expect('Content-type', /application\/json/)
-})
-
-test('unique identifier property of the blog posts is named id', async() => {
-  const blogs = await api.get('/api/blogs')
-  expect(blogs.body[0].id).toBeDefined()
-})
-
-test('adds content of the blog post and saves it correctly to the database', async() => {
-  const newBlog = helper.singleBlog
-
-  await api
-    .post('/api/blogs')
-    .send(newBlog)
-    .expect(201)
-    .expect('Content-Type', /application\/json/)
-
-  const blogs = await api.get('/api/blogs')
-  const length = blogs.body.length
-  const lastBlogAdded = blogs.body[length -1]
+describe('when there is initially some blogs saved', () => {
   
-  expect(lastBlogAdded).toHaveProperty('title', newBlog.title)
-  expect(lastBlogAdded).toHaveProperty('author', newBlog.author)
-  expect(lastBlogAdded).toHaveProperty('url', newBlog.url)
-  expect(lastBlogAdded).toHaveProperty('likes', newBlog.likes)
-  expect(length).toBe(helper.initialBlogs.length + 1)
+  test('blogs are returned as json', async () => {
+    await api
+      .get('/api/blogs')
+      .expect(200)
+      .expect('Content-type', /application\/json/)
+  })
+
+  test ('all blogs are returned', async () => {
+    const response = await api.get('/api/blogs')
+
+    expect(response.body.length).toBe(helper.initialBlogs.length)
+  })
+  
+  test('unique identifier property of the blog posts is named id', async() => {
+    const blogs = await api.get('/api/blogs')
+    expect(blogs.body[0].id).toBeDefined()
+  })
+  
+  test('adds content of the blog post and saves it correctly to the database', async() => {
+    const newBlog = helper.singleBlog
+  
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(201)
+      .expect('Content-Type', /application\/json/)
+  
+    const blogs = await api.get('/api/blogs')
+    const length = blogs.body.length
+    const lastBlogAdded = blogs.body[length -1]
+    
+    expect(lastBlogAdded).toHaveProperty('title', newBlog.title)
+    expect(lastBlogAdded).toHaveProperty('author', newBlog.author)
+    expect(lastBlogAdded).toHaveProperty('url', newBlog.url)
+    expect(lastBlogAdded).toHaveProperty('likes', newBlog.likes)
+    expect(length).toBe(helper.initialBlogs.length + 1)
+  })
+  
+  test('set likes to 0 if it\'s missing from blog object', async() => {
+    const newBlog = {
+      title: "This is a new blog",
+      author: "Gossip Blogger",
+      url: "https://reactpatterns.com/",
+    }
+  
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(201)
+      .expect('Content-Type', /application\/json/)
+  
+    const blogs = await api.get('/api/blogs')
+    const length = blogs.body.length
+    const lastBlogAdded = blogs.body[length -1]
+  
+    expect(lastBlogAdded.likes).toBe(0)
+  })
+
+  test('fails with 400 status code if no url or title is added', async() => {
+    const newBlog = {
+      author: "Gossip Blogger",
+      likes: 7,
+    }
+  
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(400)
+
+    const blogsAtEnd = await Blog.find({})
+    
+    expect(blogsAtEnd.length).toBe(helper.initialBlogs.length)
+  })
 })
 
-test('set likes to 0 if it\'s missing from blog', async() => {
-  const newBlog = helper.noLikesBlog
+describe('deletion of a note', () => {
+  test('succeeds with status code 204 if id is valid', async() => {
+    const blogAtStart = await Blog.find({})
+    const blogToDelete = blogAtStart[0]
 
-  await api
-    .post('/api/blogs')
-    .send(newBlog)
-    .expect(201)
-    .expect('Content-Type', /application\/json/)
+    await api
+      .delete(`/api/blogs/${blogToDelete.id}`)
+      .expect(204)
+    
+    const blogs = await Blog.find({})
+    const blogsAtEnd = blogs.map(blog => blog.toJSON()).length
 
-  const blogs = await api.get('/api/blogs')
-  const length = blogs.body.length
-  const lastBlogAdded = blogs.body[length -1]
-
-  expect(lastBlogAdded.likes).toBe(0)
-})
-
-test('400 status if no url or title is added', async() => {
-  const newBlog = helper.noTitleNoUrlBlog
-
-  await api
-    .post('/api/blogs')
-    .send(newBlog)
-    .expect(400)
+    expect(blogsAtEnd).toBe(blogAtStart.length - 1)
+  })
 })
 
 afterAll(() => {

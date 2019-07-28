@@ -26,12 +26,6 @@ const singleBlog = {
   likes: 7,
 }
 
-const noLikesBlog = {
-  title: "This is a new blog",
-  author: "Gossip Blogger",
-  url: "https://reactpatterns.com/",
-}
-
 const noTitleNoUrlBlog = {
   author: "Gossip Blogger",
   likes: 7,
@@ -39,7 +33,5 @@ const noTitleNoUrlBlog = {
 
 module.exports = {
   initialBlogs,
-  singleBlog,
-  noLikesBlog,
-  noTitleNoUrlBlog
+  singleBlog
 }

@@ -1,3 +1,6 @@
+const mongoose = require('mongoose')
+const User = require('../controllers/users')
+
 const initialBlogs = [
   {
     title: "React patterns",
@@ -26,12 +29,13 @@ const singleBlog = {
   likes: 7,
 }
 
-const noTitleNoUrlBlog = {
-  author: "Gossip Blogger",
-  likes: 7,
+const usersInDb = async () => {
+  const users = await User.find({})
+  return users.map(u => u.toJSON())
 }
 
 module.exports = {
   initialBlogs,
-  singleBlog
+  singleBlog,
+  usersInDb
 }

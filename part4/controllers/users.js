@@ -1,8 +1,8 @@
 const bcrypt = require('bcrypt')
-const useRouter = require('express').Router()
-const user = require('../models/user')
+const usersRouter = require('express').Router()
+const User = require('../models/user')
 
-user.post('/', async (request, response, next) => {
+usersRouter.post('/', async (request, response, next) => {
   try {
     const body = request.body
 
@@ -24,4 +24,4 @@ user.post('/', async (request, response, next) => {
   }
 })
 
-module.exports = useRouter
+module.exports = usersRouter

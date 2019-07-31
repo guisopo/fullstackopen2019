@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const User = require('../controllers/users')
+const User = require('../models/user')
 
 const initialBlogs = [
   {
@@ -31,7 +31,7 @@ const singleBlog = {
 
 const usersInDb = async () => {
   const users = await User.find({})
-  return users.map(u => u.toJSON())
+  return users
 }
 
 module.exports = {

@@ -85,10 +85,6 @@ describe('when there is initially some blogs saved', () => {
         .post('/api/blogs')
         .send(newBlog)
         .expect(400)
-  
-      const blogsAtEnd = await Blog.find({})
-      
-      expect(blogsAtEnd.length).toBe(helper.initialBlogs.length)
     })
   })
 

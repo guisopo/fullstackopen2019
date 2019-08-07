@@ -10,7 +10,7 @@ usersRouter.get('/', async (request, response) => {
 usersRouter.post('/', async (request, response, next) => {
   try {
     const body = request.body
-
+    console.log(body)
     if (!body.password) {
       return response
         .status(400)

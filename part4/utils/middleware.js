@@ -8,7 +8,7 @@ const requestLogger = (request, response, next) => {
   next()
 }
 
-const tokenExtractor = async (request, response, next) => {
+const tokenExtractor = (request, response, next) => {
   const authorization = request.get('authorization')
   
   if (authorization && authorization.toLowerCase().startsWith('bearer ')) {

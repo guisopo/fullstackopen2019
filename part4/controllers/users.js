@@ -10,7 +10,7 @@ usersRouter.get('/', async (request, response) => {
 usersRouter.post('/', async (request, response, next) => {
   try {
     const body = request.body
-    console.log(body)
+
     if (!body.password) {
       return response
         .status(400)
@@ -35,7 +35,9 @@ usersRouter.post('/', async (request, response, next) => {
 
     const savedUser = await user.save()
 
-    response.json(savedUser)
+    response
+      .json(savedUser)
+      .end()
   }
   catch (exception) {
     next(exception)

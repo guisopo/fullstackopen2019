@@ -9,16 +9,16 @@ const api = supertest(app)
 describe('when there is initially one user in the db', () => {
   beforeEach( async () => {
     await User.deleteMany({})
-    const user = new User({ name: 'root', userName: 'root', password: 'sekret' })
+    const user = new User({ name: 'root', username: 'root', password: 'sekret' })
     await user.save()
   })
 
-  test('creation succeeds with a fresh userName', async () => {
+  test('creation succeeds with a fresh username', async () => {
     const userAtStart = await helper.usersInDb()
 
     const newUser = {
       name: 'Guillermo',
-      userName: 'guisopo',
+      username: 'guisopo',
       password: '12345'
     }
 
@@ -31,15 +31,15 @@ describe('when there is initially one user in the db', () => {
     const userAtEnd = await helper.usersInDb()
     expect(userAtEnd.length).toBe(userAtStart.length + 1)
 
-    const userNames = await userAtEnd.map(u => u.userName)
-    expect(userNames).toContain(newUser.userName)
+    const usernames = await userAtEnd.map(u => u.username)
+    expect(usernames).toContain(newUser.username)
   })
 
-  test('creation fails with proper statuscode and message if userName already taken', async () => {
+  test('creation fails with proper statuscode and message if username already taken', async () => {
     const usersAtStart = await helper.usersInDb()
 
     const newUser = {
-      userName: 'root',
+      username: 'root',
       name: 'Superuser',
       password: 'salainen',
     }
@@ -50,17 +50,17 @@ describe('when there is initially one user in the db', () => {
       .expect(400)
       .expect('Content-Type', /application\/json/)
 
-    expect(result.body.error).toContain('`userName` to be unique')
+    expect(result.body.error).toContain('`username` to be unique')
 
     const usersAtEnd = await helper.usersInDb()
     expect(usersAtEnd.length).toBe(usersAtStart.length)
   })
 
-  test('creation fails with proper statuscode and message if userName is missing', async () => {
+  test('creation fails with proper statuscode and message if username is missing', async () => {
     const usersAtStart = await helper.usersInDb()
 
     const newUser = {
-      userName: '',
+      username: '',
       name: 'New User',
       password: '123',
     }
@@ -71,7 +71,7 @@ describe('when there is initially one user in the db', () => {
       .expect(400)
       .expect('Content-Type', /application\/json/)
 
-    expect(result.body.error).toContain('`userName` to be unique')
+    expect(result.body.error).toContain('`username` to be unique')
 
     const usersAtEnd = await helper.usersInDb()
     expect(usersAtEnd.length).toBe(usersAtStart.length)
@@ -81,7 +81,7 @@ describe('when there is initially one user in the db', () => {
     const usersAtStart = await helper.usersInDb()
 
     const newUser = {
-      userName: 'newUser',
+      username: 'newUser',
       name: 'New User',
       password: '',
     }
@@ -102,7 +102,7 @@ describe('when there is initially one user in the db', () => {
     const usersAtStart = await helper.usersInDb()
 
     const newUser = {
-      userName: 'newUser',
+      username: 'newUser',
       name: 'New User',
       password: '12',
     }

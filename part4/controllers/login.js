@@ -5,8 +5,8 @@ const User = require('../models/user')
 
 loginRouter.post('/', async (request, response) => {
   const body = request.body
-
-  const user = await User.findOne({ userName: body.userName })
+  console.log(body.username)
+  const user = await User.findOne({ username: body.username })
 
   const passwordCorrect = user === null
     ? false
@@ -15,12 +15,12 @@ loginRouter.post('/', async (request, response) => {
   if (!(user && passwordCorrect)) {
     return response
       .status(401)
-      .json({ error: 'invalid userName or password' })
+      .json({ error: 'invalid username or password' })
       .end()
   }
 
   const userForToken = {
-    userName: user.userName,
+    username: user.username,
     id: user._id
   }
 
@@ -28,7 +28,7 @@ loginRouter.post('/', async (request, response) => {
 
   response
     .status(200)
-    .send({ token, user: user.userName, name: user.name })
+    .send({ token, user: user.username, name: user.name })
     .end()
 })
 

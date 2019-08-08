@@ -22,6 +22,11 @@ const App = () => {
       const user = await loginService.login({
         username, password
       })
+
+      window.localStorage.setItem(
+        'loggedNoteappUser', JSON.stringify(user)
+      )
+
       setUser(user)
       setUsername('')
       setPassword('')
@@ -57,10 +62,16 @@ const App = () => {
     </div>
   )
 
+  const logOut = () => {
+    window.localStorage.removeItem('loggedNoteappUser')
+    setUser(null)
+  }
+
   const userProfile = () => (
     <div>
       <h1>Blogs</h1>
       <p>{user.name} logged in</p>
+      <button onClick={() => logOut()}>logout</button>
       <ul>
         {
           blogs.map(b => <li key={b.id}>{b.title}</li>)

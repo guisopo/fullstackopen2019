@@ -1,10 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import loginService from './services/login'
+import blogService from './services/blogs'
 
 const App = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
+  const [blogs, setBlogs] = useState([])
+
+  useEffect(() => {
+    blogService
+      .getAll()
+      .then(initalBlogs => {
+        setBlogs(initalBlogs)
+      })
+  }, [user])
 
   const handleLogging = async (event) => {
     event.preventDefault()
@@ -49,7 +59,13 @@ const App = () => {
 
   const userProfile = () => (
     <div>
-      <h1>Hola</h1> 
+      <h1>Blogs</h1>
+      <p>{user.name} logged in</p>
+      <ul>
+        {
+          blogs.map(b => <li key={b.id}>{b.title}</li>)
+        }
+      </ul>
     </div>
   )
 

@@ -80,6 +80,21 @@ const App = () => {
 
   const createBlog = (event) => {
     event.preventDefault();
+
+    const newBlog = {
+      title,
+      author,
+      url
+    }
+
+    blogService
+      .createBlog(newBlog, user.token)
+      .then(returnedBlog => {
+        setBlogs(blogs.concat(returnedBlog))
+        setTitle('')
+        setAuthor('')
+        setUrl('')
+      })
   }
 
   const userProfile = () => (
@@ -93,7 +108,7 @@ const App = () => {
         <div>
           title:
           <input
-            type="title"
+            type="text"
             value={title}
             name="Title"
             onChange={({ target }) => setTitle(target.value)}
@@ -102,7 +117,7 @@ const App = () => {
         <div>
           author:
           <input
-            type="author"
+            type="text"
             value={author}
             name="Author"
             onChange={({ target }) => setAuthor(target.value)}
@@ -111,7 +126,7 @@ const App = () => {
         <div>
           url:
           <input
-            type="url"
+            type="text"
             value={url}
             name="Url"
             onChange={({ target }) => setUrl(target.value)}

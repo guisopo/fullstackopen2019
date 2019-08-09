@@ -5,6 +5,9 @@ import blogService from './services/blogs'
 const App = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+  const [title, setTitle] = useState('')
+  const [author, setAuthor] = useState('')
+  const [url, setUrl] = useState('')
   const [user, setUser] = useState(null)
   const [blogs, setBlogs] = useState([])
 
@@ -75,11 +78,48 @@ const App = () => {
     setUser(null)
   }
 
+  const createBlog = (event) => {
+    event.preventDefault();
+  }
+
   const userProfile = () => (
     <div>
       <h1>Blogs</h1>
       <p>{user.name} logged in</p>
       <button onClick={() => logOut()}>logout</button>
+
+      <h1>Create new</h1>
+      <form onSubmit={createBlog}>
+        <div>
+          title:
+          <input
+            type="title"
+            value={title}
+            name="Title"
+            onChange={({ target }) => setTitle(target.value)}
+          />
+        </div>
+        <div>
+          author:
+          <input
+            type="author"
+            value={author}
+            name="Author"
+            onChange={({ target }) => setAuthor(target.value)}
+          />
+        </div>
+        <div>
+          url:
+          <input
+            type="url"
+            value={url}
+            name="Url"
+            onChange={({ target }) => setUrl(target.value)}
+          />
+        </div>
+        <button type="submit">Create</button>
+      </form>
+
       <ul>
         {
           blogs.map(b => <li key={b.id}>{b.title}</li>)

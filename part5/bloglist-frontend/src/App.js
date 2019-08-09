@@ -10,6 +10,7 @@ const App = () => {
   const [url, setUrl] = useState('')
   const [user, setUser] = useState(null)
   const [blogs, setBlogs] = useState([])
+  const [message, setMessage] = useState(null)
 
   useEffect(() => {
     blogService
@@ -27,6 +28,12 @@ const App = () => {
     }
   }, [])
 
+  const notification = () => (
+    <div>
+      <h2>{message}</h2>
+    </div>
+  )
+
   const handleLogging = async (event) => {
     event.preventDefault()
     try {
@@ -42,7 +49,10 @@ const App = () => {
       setUsername('')
       setPassword('')
     } catch (exception) {
-      console.log('Wrong credentials')
+      setMessage('Wrong Credentials')
+      setTimeout(() => {
+        setMessage(null)
+      }, 4500)
     }
   }
 
@@ -70,6 +80,7 @@ const App = () => {
         </div>
         <button type="submit">Login</button>
       </form>
+      {message && notification()}
     </div>
   )
 
@@ -80,6 +91,14 @@ const App = () => {
 
   const createBlog = (event) => {
     event.preventDefault();
+
+    if (!(title && author && url)) {
+      setMessage('Failed to create new Blog. You must fill every input from the form')
+      setTimeout(() => {
+        setMessage(null)
+      }, 5000)
+      return
+    }
 
     const newBlog = {
       title,
@@ -95,11 +114,19 @@ const App = () => {
         setAuthor('')
         setUrl('')
       })
+
+    setMessage(`New Blog ${newBlog.title} Added!`)
+    setTimeout(() => {
+      setMessage(null)
+    }, 5000)
   }
 
   const userProfile = () => (
     <div>
       <h1>Blogs</h1>
+
+      {message && notification()}
+      
       <p>{user.name} logged in</p>
       <button onClick={() => logOut()}>logout</button>
 

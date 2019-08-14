@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 import Notification from './components/Notification'
+import LoginForm from './components/LoginForm'
 
 import loginService from './services/login'
 import blogService from './services/blogs'
@@ -31,7 +32,7 @@ const App = () => {
     }
   }, [])
 
-  const handleLogging = async (event) => {
+  const handleLogin = async (event) => {
     event.preventDefault()
     try {
       const user = await loginService.login({
@@ -53,33 +54,18 @@ const App = () => {
     }
   }
 
-  const loginForm = () => (
-    <div>
-      <h1>Log in to application</h1>
-      <form onSubmit={handleLogging}>
-        <div>
-          username:
-          <input 
-            type="text"
-            value={username}
-            name="Username"
-            onChange={({ target }) => setUsername(target.value)}
-          />
-        </div>
-        <div>
-          password:
-          <input 
-            type="password"
-            value={password}
-            name="Password"
-            onChange={({ target }) => setPassword(target.value)}
-          />
-        </div>
-        <button type="submit">Login</button>
-      </form>
-      <Notification message={message}/>
-    </div>
-  )
+  const loginForm = () => {
+    return (
+      <LoginForm 
+        username={username}
+        password={password}
+        message={message}
+        handleUsernameChange={({ target }) => setUsername(target.value)}
+        handlePasswordChange={({ target }) => setPassword(target.value)}
+        handleSubmit={handleLogin}
+      />
+    )
+  }
 
   const logOut = () => {
     window.localStorage.removeItem('loggedBlogappUser')

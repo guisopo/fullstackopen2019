@@ -56,19 +56,6 @@ const App = () => {
     }
   }
 
-  const loginForm = () => {
-    return (
-      <LoginForm 
-        username={username}
-        password={password}
-        message={message}
-        handleUsernameChange={({ target }) => setUsername(target.value)}
-        handlePasswordChange={({ target }) => setPassword(target.value)}
-        handleSubmit={handleLogin}
-      />
-    )
-  }
-
   const logOut = () => {
     window.localStorage.removeItem('loggedBlogappUser')
     setUser(null)
@@ -86,7 +73,7 @@ const App = () => {
     }
 
     blogFormRef.current.toggleVisibility()
-    
+
     const newBlog = {
       title,
       author,
@@ -106,6 +93,19 @@ const App = () => {
     setTimeout(() => {
       setMessage(null)
     }, 5000)
+  }
+
+  const loginForm = () => {
+    return (
+      <LoginForm 
+        username={username}
+        password={password}
+        message={message}
+        handleUsernameChange={({ target }) => setUsername(target.value)}
+        handlePasswordChange={({ target }) => setPassword(target.value)}
+        handleSubmit={handleLogin}
+      />
+    )
   }
 
   const blogFormRef = React.createRef()

@@ -1,25 +1,35 @@
 import React from 'react'
+import Notification from './Notification'
 
-const BlogForm = ({
+const UserProfile = ({
+  blogs,
+  user,
+  message,
   title,
   author,
   url,
-  handleTitleChange,
-  handleAuthorChange,
-  handleUrlChange,
-  handleSubmit
+  handleClick,
+  handleSubmit,
+  handleChange,
 }) => {
   return (
     <div>
+      <h1>Blogs</h1>
+
+      <Notification message={message}/>
+      
+      <p>{user.name} logged in</p>
+      <button onClick={() => logOut()}>logout</button>
+
       <h1>Create new</h1>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={createBlog}>
         <div>
           title:
           <input
             type="text"
             value={title}
             name="Title"
-            onChange={handleTitleChange}
+            onChange={({ target }) => setTitle(target.value)}
           />
         </div>
         <div>
@@ -28,7 +38,7 @@ const BlogForm = ({
             type="text"
             value={author}
             name="Author"
-            onChange={handleAuthorChange}
+            onChange={({ target }) => setAuthor(target.value)}
           />
         </div>
         <div>
@@ -37,13 +47,17 @@ const BlogForm = ({
             type="text"
             value={url}
             name="Url"
-            onChange={handleUrlChange}
+            onChange={({ target }) => setUrl(target.value)}
           />
         </div>
         <button type="submit">Create</button>
       </form>
+
+      <ul>
+        {
+          blogs.map(b => <li key={b.id}>{b.title}</li>)
+        }
+      </ul>
     </div>
   )
 }
-
-export default BlogForm

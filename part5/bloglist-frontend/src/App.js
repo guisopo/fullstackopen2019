@@ -85,6 +85,8 @@ const App = () => {
       return
     }
 
+    blogFormRef.current.toggleVisibility()
+    
     const newBlog = {
       title,
       author,
@@ -106,6 +108,8 @@ const App = () => {
     }, 5000)
   }
 
+  const blogFormRef = React.createRef()
+
   const userProfile = () => (
     <div>
       <h1>Blogs</h1>
@@ -115,7 +119,7 @@ const App = () => {
       <p>{user.name} logged in</p>
       <button onClick={() => logOut()}>logout</button>
       
-      <Toggable buttonLabel="New Blog">
+      <Toggable buttonLabel="New Blog" ref={blogFormRef}>
         <BlogForm
           title={title}
           author={author}

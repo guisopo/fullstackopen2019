@@ -1,6 +1,9 @@
 import React, {useState} from 'react'
-const Blog = ({ blog, handleClick }) => {
-
+const Blog = ({ 
+  blog, 
+  handleLikes, 
+  handleDelete 
+}) => {
   const [visible, setVisible] = useState(false)
 
   const blogStyle = {
@@ -20,8 +23,9 @@ const Blog = ({ blog, handleClick }) => {
       return (
         <React.Fragment>
           <p><a href={blog.url}>{blog.url}</a></p>
-          <p>{blog.likes} likes <button onClick={handleClick}>like</button></p>
+          <p>{blog.likes} likes <button onClick={handleLikes}>like</button></p>
           <p>Added by {blog.author}</p>
+          <button onClick={handleDelete}>Delete</button>
         </React.Fragment>
       )
     }

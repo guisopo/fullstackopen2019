@@ -96,11 +96,27 @@ const App = () => {
     }, 5000)
   }
 
+  const deleteBlog = (target) => {
+    window.confirm(`Are you sure to delete ${target.title} by ${target.author}?`)
+
+    blogService
+      .deleteBlog(target.id, user.token)
+      .then(response => {
+        setBlogs(blogs.filter(blog => blog.id !== target.id))
+        console.log(response)
+      })
+    
+    setMessage('Blog Deleted')
+    setTimeout(() => {
+      setMessage(null)
+    }, 5000)
+  }
+
   const updateLikes = (target) => {
     const newBlog = {
       likes: target.likes + 1
     }
-    console.log(blogs)
+
     blogService
       .updateBlog(target.id, newBlog, user.token)
       .then(returnedBlog => {
@@ -153,7 +169,14 @@ const App = () => {
         {
           blogs
             .sort((a,b) => b.likes - a.likes)
-            .map(b => <Blog blog={b} key={b.id} handleClick={() => updateLikes(b)}/>)
+            .map(
+              b => 
+                <Blog 
+                  blog={b} 
+                  key={b.id} 
+                  handleLikes={() => updateLikes(b)}
+                  handleDelete={() => deleteBlog(b)}
+                />)
         }
       </ul>
     </div>

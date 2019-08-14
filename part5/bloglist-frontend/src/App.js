@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import Notification from './components/Notification'
 import LoginForm from './components/LoginForm'
 import BlogForm from './components/BlogForm'
+import Toggable from './components/Toggable'
 
 import loginService from './services/login'
 import blogService from './services/blogs'
@@ -113,18 +114,18 @@ const App = () => {
       
       <p>{user.name} logged in</p>
       <button onClick={() => logOut()}>logout</button>
-
-      <h1>Create new</h1>
       
-      <BlogForm
-        title={title}
-        author={author}
-        url={url}
-        handleSubmit={createBlog}
-        handleTitleChange={({ target }) => setTitle(target.value)}
-        handleAuthorChange={({ target }) => setAuthor(target.value)}
-        handleUrlChange={({ target }) => setUrl(target.value)}
-      />
+      <Toggable buttonLabel="New Blog">
+        <BlogForm
+          title={title}
+          author={author}
+          url={url}
+          handleSubmit={createBlog}
+          handleTitleChange={({ target }) => setTitle(target.value)}
+          handleAuthorChange={({ target }) => setAuthor(target.value)}
+          handleUrlChange={({ target }) => setUrl(target.value)}
+        />
+      </Toggable>
 
       <ul>
         {

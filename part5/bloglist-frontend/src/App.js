@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 import Notification from './components/Notification'
 import LoginForm from './components/LoginForm'
+import BlogForm from './components/BlogForm'
 
 import loginService from './services/login'
 import blogService from './services/blogs'
@@ -114,36 +115,16 @@ const App = () => {
       <button onClick={() => logOut()}>logout</button>
 
       <h1>Create new</h1>
-      <form onSubmit={createBlog}>
-        <div>
-          title:
-          <input
-            type="text"
-            value={title}
-            name="Title"
-            onChange={({ target }) => setTitle(target.value)}
-          />
-        </div>
-        <div>
-          author:
-          <input
-            type="text"
-            value={author}
-            name="Author"
-            onChange={({ target }) => setAuthor(target.value)}
-          />
-        </div>
-        <div>
-          url:
-          <input
-            type="text"
-            value={url}
-            name="Url"
-            onChange={({ target }) => setUrl(target.value)}
-          />
-        </div>
-        <button type="submit">Create</button>
-      </form>
+      
+      <BlogForm
+        title={title}
+        author={author}
+        url={url}
+        handleSubmit={createBlog}
+        handleTitleChange={({ target }) => setTitle(target.value)}
+        handleAuthorChange={({ target }) => setAuthor(target.value)}
+        handleUrlChange={({ target }) => setUrl(target.value)}
+      />
 
       <ul>
         {

@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from 'react';
+
+import Notification from './components/Notification'
+
 import loginService from './services/login'
 import blogService from './services/blogs'
 
@@ -27,12 +30,6 @@ const App = () => {
       setUser(user)
     }
   }, [])
-
-  const notification = () => (
-    <div>
-      <h2>{message}</h2>
-    </div>
-  )
 
   const handleLogging = async (event) => {
     event.preventDefault()
@@ -80,7 +77,7 @@ const App = () => {
         </div>
         <button type="submit">Login</button>
       </form>
-      {message && notification()}
+      <Notification message={message}/>
     </div>
   )
 
@@ -125,7 +122,7 @@ const App = () => {
     <div>
       <h1>Blogs</h1>
 
-      {message && notification()}
+      <Notification message={message}/>
       
       <p>{user.name} logged in</p>
       <button onClick={() => logOut()}>logout</button>

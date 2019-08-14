@@ -4,6 +4,7 @@ import Notification from './components/Notification'
 import LoginForm from './components/LoginForm'
 import BlogForm from './components/BlogForm'
 import Toggable from './components/Toggable'
+import Blog from './components/Blog'
 
 import loginService from './services/login'
 import blogService from './services/blogs'
@@ -133,7 +134,7 @@ const App = () => {
 
       <ul>
         {
-          blogs.map(b => <li key={b.id}>{b.title}</li>)
+          blogs.map(b => <Blog blog={b} key={b.id}/>)
         }
       </ul>
     </div>

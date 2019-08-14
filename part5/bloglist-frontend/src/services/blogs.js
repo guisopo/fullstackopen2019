@@ -22,7 +22,7 @@ const updateBlog = async (id, newObject, token) => {
   }
 
   const response = await axios.put(`${baseUrl}/${id}`, newObject, config)
-  console.log(response)
+
   return response.data
 }
 

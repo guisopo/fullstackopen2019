@@ -96,6 +96,23 @@ const App = () => {
     }, 5000)
   }
 
+  const updateLikes = (target) => {
+    const newBlog = {
+      likes: target.likes + 1
+    }
+
+    blogService
+      .updateBlog(target.id, newBlog, user.token)
+      .then(returnedBlog => {
+        setBlogs(blogs.map(b => b.id === returnedBlog.id ? returnedBlog : b))
+      })
+
+    setMessage('Updated Likes!')
+    setTimeout(() => {
+      setMessage(null)
+    }, 5000)
+  }
+
   const loginForm = () => {
     return (
       <LoginForm 
@@ -134,7 +151,7 @@ const App = () => {
 
       <ul>
         {
-          blogs.map(b => <Blog blog={b} key={b.id}/>)
+          blogs.map(b => <Blog blog={b} key={b.id} handleClick={() => updateLikes(b)}/>)
         }
       </ul>
     </div>

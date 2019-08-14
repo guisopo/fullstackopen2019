@@ -171,7 +171,8 @@ const App = () => {
             .sort((a,b) => b.likes - a.likes)
             .map(
               b => 
-                <Blog 
+                <Blog
+                  user={user.name}
                   blog={b} 
                   key={b.id} 
                   handleLikes={() => updateLikes(b)}

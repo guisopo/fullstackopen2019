@@ -1,5 +1,6 @@
 import React, {useState} from 'react'
-const Blog = ({ 
+const Blog = ({
+  user,
   blog, 
   handleLikes, 
   handleDelete 
@@ -25,7 +26,11 @@ const Blog = ({
           <p><a href={blog.url}>{blog.url}</a></p>
           <p>{blog.likes} likes <button onClick={handleLikes}>like</button></p>
           <p>Added by {blog.author}</p>
-          <button onClick={handleDelete}>Delete</button>
+          {
+            blog.user.name === user ?
+              <button onClick={handleDelete}>Delete</button> :
+              ''
+          }
         </React.Fragment>
       )
     }

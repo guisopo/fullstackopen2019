@@ -100,7 +100,7 @@ const App = () => {
     const newBlog = {
       likes: target.likes + 1
     }
-
+    console.log(blogs)
     blogService
       .updateBlog(target.id, newBlog, user.token)
       .then(returnedBlog => {
@@ -151,7 +151,9 @@ const App = () => {
 
       <ul>
         {
-          blogs.map(b => <Blog blog={b} key={b.id} handleClick={() => updateLikes(b)}/>)
+          blogs
+            .sort((a,b) => b.likes - a.likes)
+            .map(b => <Blog blog={b} key={b.id} handleClick={() => updateLikes(b)}/>)
         }
       </ul>
     </div>

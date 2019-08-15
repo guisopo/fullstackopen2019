@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react'
 
 import Notification from './components/Notification'
 import LoginForm from './components/LoginForm'
@@ -63,7 +63,7 @@ const App = () => {
   }
 
   const createBlog = (event) => {
-    event.preventDefault();
+    event.preventDefault()
 
     if (!(title && author && url)) {
       setMessage('Failed to create new Blog. You must fill every input from the form')
@@ -105,7 +105,7 @@ const App = () => {
         setBlogs(blogs.filter(blog => blog.id !== target.id))
         console.log(response)
       })
-    
+
     setMessage('Blog Deleted')
     setTimeout(() => {
       setMessage(null)
@@ -131,7 +131,7 @@ const App = () => {
 
   const loginForm = () => {
     return (
-      <LoginForm 
+      <LoginForm
         username={username}
         password={password}
         message={message}
@@ -149,10 +149,10 @@ const App = () => {
       <h1>Blogs</h1>
 
       <Notification message={message}/>
-      
+
       <p>{user.name} logged in</p>
       <button onClick={() => logOut()}>logout</button>
-      
+
       <Toggable buttonLabel="New Blog" ref={blogFormRef}>
         <BlogForm
           title={title}
@@ -170,11 +170,11 @@ const App = () => {
           blogs
             .sort((a,b) => b.likes - a.likes)
             .map(
-              b => 
+              b =>
                 <Blog
                   user={user.name}
-                  blog={b} 
-                  key={b.id} 
+                  blog={b}
+                  key={b.id}
                   handleLikes={() => updateLikes(b)}
                   handleDelete={() => deleteBlog(b)}
                 />)
@@ -194,4 +194,4 @@ const App = () => {
   )
 }
 
-export default App;
+export default App

@@ -1,10 +1,10 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 
 const Blog = ({
   user,
-  blog, 
-  handleLikes, 
-  handleDelete 
+  blog,
+  handleLikes,
+  handleDelete
 }) => {
   const [visible, setVisible] = useState(false)
 
